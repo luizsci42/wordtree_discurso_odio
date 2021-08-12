@@ -1,0 +1,40 @@
+<html>
+<head>
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {packages: ['wordtree']});
+        google.charts.setOnLoadCallback(main);
+
+        function main() {
+            fetch('http://127.0.0.1:5000/consultar')
+                .then(res => {
+                    return res.json();
+                })
+                .then(conteudo => {
+                    const postagens = conteudo.Post;
+                    plotData(postagens.join());
+                })
+        }
+
+        function plotData(postagens) {
+            const data = google.visualization.arrayToDataTable(
+                [['Phrases'], [postagens]]
+            );
+
+            const options = {
+                wordtree: {
+                    format: 'implicit',
+                    type: 'double',
+                    word: 'jacarezinho'
+                }
+            };
+
+            var wordtree = new google.visualization.WordTree(document.getElementById('wordtree_double'));
+            wordtree.draw(data, options);
+        }
+    </script>
+</head>
+<body>
+<div id="wordtree_double" style="width: 1600px; height: 700px;"></div>
+</body>
+</html>
