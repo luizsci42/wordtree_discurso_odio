@@ -5,13 +5,20 @@
         google.charts.load('current', {packages: ['wordtree']});
         google.charts.setOnLoadCallback(main);
 
-        function main() {
-            fetch('http://127.0.0.1:5000/consultar')
+        function main(bigrama) {
+            url_busca = 'http://127.0.0.1:5000/consultar'
+
+            if (bigrama) {
+                url_busca += '/' + bigrama
+            }
+
+            fetch(url_busca)
                 .then(res => {
                     return res.json();
                 })
                 .then(conteudo => {
                     const postagens = conteudo.Post;
+                    console.log("Vamos plotar os dados");
                     plotData(postagens.join());
                 })
         }
@@ -25,11 +32,31 @@
                 wordtree: {
                     format: 'implicit',
                     type: 'double',
-                    word: 'jacarezinho'
+                    word: 'pretos'
                 }
             };
 
-            var wordtree = new google.visualization.WordTree(document.getElementById('wordtree_double'));
+            wordtree = new google.visualization.WordTree(document.getElementById('wordtree_double'));
+
+            // consulta o servidor pela palavra selecionada na árvore
+            function consultarPalavra() {
+                const palavraSelecionada = wordtree.getSelection();
+                if (palavraSelecionada) {
+                    console.log(palavraSelecionada.word)
+                    const palavra = palavraSelecionada.word;
+                    console.log('Palavra selecionada: ' + palavra);
+                    main(palavra);
+                }
+                else {
+                    console.log('Deu algo errado');
+                }
+            }
+
+            // Adicionamos o evento ready para indicar que o elemento terá eventos que nos interessa
+            google.visualization.events.addListener(wordtree, 'ready', () => {});
+            // o evento 'select' é ativado quando se clica em uma palavra
+            google.visualization.events.addListener(wordtree, 'select', consultarPalavra);
+
             wordtree.draw(data, options);
         }
     </script>
