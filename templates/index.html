@@ -7,9 +7,11 @@
 
         function main(bigrama) {
             url_busca = 'http://127.0.0.1:5000/consultar'
+            palavraDestacada = 'pretos'
 
             if (bigrama) {
                 url_busca += '/' + bigrama
+                palavraDestacada = bigrama
             }
 
             fetch(url_busca)
@@ -18,12 +20,12 @@
                 })
                 .then(conteudo => {
                     const postagens = conteudo.Post;
-                    console.log("Vamos plotar os dados");
-                    plotData(postagens.join());
+                    console.log("Montando árvore de palavras");
+                    plotData(postagens.join(), palavraDestacada);
                 })
         }
 
-        function plotData(postagens) {
+        function plotData(postagens, palavra) {
             const data = google.visualization.arrayToDataTable(
                 [['Phrases'], [postagens]]
             );
@@ -32,7 +34,7 @@
                 wordtree: {
                     format: 'implicit',
                     type: 'double',
-                    word: 'pretos'
+                    word: palavra
                 }
             };
 

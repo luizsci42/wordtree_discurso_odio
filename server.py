@@ -38,7 +38,7 @@ def consultar(bigrama=''):
     tweets = [palavra for palavra in tweets if not palavra.lower() in stopwords]
 
     if bigrama != '':
-        print('a palavra que chegou aqui: ' + bigrama)
+        logging.info('Consultando a palavra: ' + bigrama)
         bigrama = bigrama.replace('_', ' ')
         # busca apenas as postagens que possuem o bigrama
         tweets = [post for post in tweets if (post.__contains__(bigrama))]
