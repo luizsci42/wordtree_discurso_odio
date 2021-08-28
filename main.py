@@ -1,5 +1,4 @@
 from flask import Flask, render_template
-from flask_cors import CORS
 import pandas as pd
 import os
 import json
@@ -8,7 +7,6 @@ import re
 import nltk
 
 app = Flask(__name__, static_folder='/client', static_url_path='/')
-CORS(app)
 
 
 def limpar_texto(texto):
@@ -58,8 +56,5 @@ def consultar(bigrama=''):
 
 
 if __name__ == "__main__":
-    # TODO: configurar os ambientes de dev e prod para que as
-    #  configurações de host e porta também funcionem no heroku
-    # https://pythonbasics.org/flask-environment-productionq
     port = int(os.environ.get("PORT", 5000))
     app.run(host='0.0.0.0', port=port)
