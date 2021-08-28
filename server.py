@@ -12,11 +12,16 @@ CORS(app)
 
 
 def limpar_texto(texto):
-    texto = texto
+    stopwords = nltk.corpus.stopwords.words('portuguese')
+
     texto = re.sub('\n', '', texto)
     texto = re.sub('@\S+', '', texto)
     texto = re.sub('#\S+', '', texto)
     texto = re.sub(r'https://\S+', '', texto)
+    texto = re.sub(r'[^\w\s]', '', texto)
+
+    tokens = nltk.tokenize.word_tokenize(texto)
+    # texto = [palavra for palavra in tokens if palavra.lower() not in stopwords]
 
     return texto
 
@@ -53,7 +58,8 @@ def consultar(bigrama=''):
 
 
 if __name__ == "__main__":
-    # TODO: talvez seja necessário configurar os ambientes de dev e prod
-    #  para que as configurações de host e porta também funcionem no heroku
+    # TODO: configurar os ambientes de dev e prod para que as
+    #  configurações de host e porta também funcionem no heroku
+    # https://pythonbasics.org/flask-environment-productionq
     port = int(os.environ.get("PORT", 5000))
     app.run(host='127.0.0.1', port=port)

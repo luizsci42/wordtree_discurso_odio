@@ -6,12 +6,12 @@
         google.charts.setOnLoadCallback(main);
 
         function main(bigrama) {
-            url_busca = 'http://127.0.0.1:5000/consultar'
-            palavraDestacada = 'pretos'
+            url_busca = 'http://127.0.0.1:5000/consultar';
+            palavraDestacada = 'pretos';
 
             if (bigrama) {
-                url_busca += '/' + bigrama
-                palavraDestacada = bigrama
+                url_busca += '/' + bigrama;
+                palavraDestacada = bigrama;
             }
 
             fetch(url_busca)
