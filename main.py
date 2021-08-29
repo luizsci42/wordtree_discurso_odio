@@ -10,7 +10,7 @@ app = Flask(__name__, static_folder='/client', static_url_path='/')
 
 
 def limpar_texto(texto):
-    stopwords = nltk.corpus.stopwords.words('portuguese')
+    # stopwords = nltk.corpus.stopwords.words('portuguese')
 
     texto = re.sub('\n', '', texto)
     texto = re.sub('@\S+', '', texto)
