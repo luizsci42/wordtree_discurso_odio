@@ -31,7 +31,6 @@ def consultar(bigrama=''):
     df_tweets['Texto'] = df_tweets.apply(lambda row: limpar_texto(row['Texto']), axis=1)
 
     tweets = list(df_tweets['Texto'])
-    tweets = [palavra for palavra in tweets if not palavra.lower() in stopwords]
 
     if bigrama != '':
         logging.info('Consultando a palavra: ' + bigrama)
