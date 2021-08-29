@@ -4,22 +4,16 @@ import os
 import json
 import logging
 import re
-import nltk
 
 app = Flask(__name__, static_folder='/client', static_url_path='/')
 
 
 def limpar_texto(texto):
-    # stopwords = nltk.corpus.stopwords.words('portuguese')
-
     texto = re.sub('\n', '', texto)
     texto = re.sub('@\S+', '', texto)
     texto = re.sub('#\S+', '', texto)
     texto = re.sub(r'https://\S+', '', texto)
     texto = re.sub(r'[^\w\s]', '', texto)
-
-    tokens = nltk.tokenize.word_tokenize(texto)
-    # texto = [palavra for palavra in tokens if palavra.lower() not in stopwords]
 
     return texto
 
@@ -36,7 +30,6 @@ def consultar(bigrama=''):
     df_tweets = pd.read_csv(path, error_bad_lines=False)
     df_tweets['Texto'] = df_tweets.apply(lambda row: limpar_texto(row['Texto']), axis=1)
 
-    stopwords = nltk.corpus.stopwords.words('portuguese')
     tweets = list(df_tweets['Texto'])
     tweets = [palavra for palavra in tweets if not palavra.lower() in stopwords]
 
