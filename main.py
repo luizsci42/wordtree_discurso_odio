@@ -1,4 +1,5 @@
 from flask import Flask, render_template
+from flask_cors import CORS
 import pandas as pd
 import os
 import json
@@ -6,6 +7,7 @@ import logging
 import re
 
 app = Flask(__name__, static_folder='/client', static_url_path='/')
+CORS(app)
 
 
 def limpar_texto(texto):
